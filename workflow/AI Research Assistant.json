@@ -1,0 +1,125 @@
+{
+  "name": "AI Research Assistant",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -368,
+        16
+      ],
+      "id": "57e37270-a4a0-4db5-a387-30809a8646b0",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "64e109e9-4240-40bf-9253-c995a3e3480a",
+              "name": "topic",
+              "value": "AI Agent",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -160,
+        16
+      ],
+      "id": "d18dc2fc-ae06-4bdd-b531-4663f55a744c",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "q": "={{ $json.topic }}",
+        "location": "Bangladesh",
+        "additionalFields": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-serpapi.serpApi",
+      "typeVersion": 1,
+      "position": [
+        48,
+        16
+      ],
+      "id": "fd64c1c0-a487-4eca-a49c-83bc1f8b0326",
+      "name": "Google search",
+      "credentials": {
+        "serpApi": {
+          "id": "MIBemaIFKcuGSwsw",
+          "name": "SerpApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nconst res = $input.first().json.organic_results || []\nreturn res.slice(0, 10).map(r =>({\n  title : r.title,\n  link : r.link,\n  source : r.source || \"unknown\"\n}))"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        256,
+        16
+      ],
+      "id": "f6552939-2e5b-41f6-9fcd-2655cbd4a3d4",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google search": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveExecutionProgress": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": -1,
+    "availableInMCP": false
+  },
+  "versionId": "d5032bf7-6eb8-48e9-a41a-5d01fdd67df2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2b652ca004237ea3a3962d43e8560aa0bc53fc45e824bea4e47791625050868e"
+  },
+  "id": "4sLaeu1ATr7jy6Qy",
+  "tags": []
+}
